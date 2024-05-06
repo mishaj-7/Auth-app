@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 export default function SignIn() {
-
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange =(e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -34,7 +34,7 @@ export default function SignIn() {
         setError(true)
         return;
       }
-
+      navigate('/sign-in');
     } catch (err) {
       setLoading(false)
       setError(true)
@@ -69,10 +69,10 @@ export default function SignIn() {
           onChange={handleChange}
         />
         <button type="submit" disabled={loading}
-          className="bg-green-950 text-white
+          className="bg-blue-800 text-white
         rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80"
         >
-          {loading ? 'Loading...': 'Signu Up'}
+          {loading ? 'Loading...': 'Sign Up'}
         </button>
       </form>
 
