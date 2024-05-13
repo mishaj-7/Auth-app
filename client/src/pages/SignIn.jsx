@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate} from "react-router-dom";
+import { signInStart, signFailure, signInSuccess } from "../redux_toolkit/User/userSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,8 +19,9 @@ export default function SignIn() {
     e.preventDefault();
 
     try {
-      setLoading(true);
-      setError(false);
+      // setLoading(true);
+      // setError(false);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -26,18 +30,22 @@ export default function SignIn() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      setLoading(false);
-
+      
+      // setLoading(false);
       //  console.log(data);
-
+      
       if (data.success === false) {
-        setError(true);
+        dispatch(signFailure(data))
+        //setError(true);
         return;
       }
-      navigate('/')
+      dispatch(signInSuccess(data));
+      navigate('/') // this function nvavigate to route we provde in it
     } catch (err) {
-      setLoading(false);
-      setError(true);
+      //console.log(err) // error come from back end and its text messge we add state value and print the value on dom
+    dispatch(signFailure(err))
+      // setLoading(false);
+      // setError(true);
     }
   };
 
@@ -77,7 +85,7 @@ export default function SignIn() {
           <span className="text-blue-500">Sign Up</span>
         </Link>
       </div>
-      <p className="text-red-700 mt-5">{error && "somthing went wrong!!"}</p>
+      <p className="text-red-700 mt-5">{error ? error.message || "somthing went wrong!!": ''}</p>
     </div>
   );
 }
