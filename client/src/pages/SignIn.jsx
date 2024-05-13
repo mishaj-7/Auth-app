@@ -18,6 +18,14 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.email || !formData.password) {
+      // Handle the case where one or both fields are empty
+      dispatch(
+        signFailure({ message: "Please enter your email and password" })
+      );
+      return;
+    }
+
     try {
       // setLoading(true);
       // setError(false);
