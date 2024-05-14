@@ -12,6 +12,9 @@ export default function SignIn() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+    if (error) {
+      dispatch(signFailure(null));
+    }
     // console.log(formData);
   };
 
