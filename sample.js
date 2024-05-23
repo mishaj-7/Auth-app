@@ -1,6 +1,8 @@
 // this js file for practicing before implementing 
 
-import bcryptjs from "bcryptjs";
+//import bcryptjs from "bcryptjs";
+
+
 // const expiryDate = new Date(Date.now() + 3600000); // 1hour
 // const expiryDate1 = new Date(Date.now()); 
 // console.log(expiryDate)
@@ -38,7 +40,35 @@ import bcryptjs from "bcryptjs";
 // console.log(Math.random()*100);
 
 
-console.log(
-  "mohamed Mishaj k".split(" ").join("").toLowerCase() +
-    Math.floor(Math.random() * 10000).toString()
-);
+// console.log(
+//   "mohamed Mishaj k".split(" ").join("").toLowerCase() +
+//     Math.floor(Math.random() * 10000).toString()
+// );
+
+// function doSomething() {
+//     return 
+//     {
+//         success:true
+//     };
+// }
+// console.log(doSomething());
+
+// const sample = async(js,ptyhon,node,express,sql,java) => {
+//     return [1,2,34,5,3]
+// }
+// sample().then((res) => {
+//     console.log(res.length)
+// })
+
+// console.log(3+7+"1"+1+10);
+
+let a = 10, b = 10, c = 1;
+
+
+console.log(a==b==c);
+// if (a == b == c) {
+//     console.log('true');
+// }
+// else {
+//     console.log('false');
+// }

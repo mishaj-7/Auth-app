@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom"
+import { useSelector } from 'react-redux';
 
-Link
 
 export default function Header() {
+  const { currentUser } = useSelector(state => state.user);
+  console.log(currentUser);
   return (
     <div className="bg-slate-200">
       <div
@@ -19,8 +21,15 @@ export default function Header() {
           <Link to="/about">
             <li>About</li>
           </Link>
-          <Link to='/sign-in'>
-            <li>Sign In</li>
+          <Link to='/profile'>
+            {currentUser ? (
+              <img
+                src={currentUser.profilePicture}
+                alt="profile" className="h-7 w-7 rounded-full object-cover"
+              />
+            ) : (
+                <li>Sign In</li>
+            )}
           </Link>
         </ul>
       </div>
