@@ -62,13 +62,27 @@
 
 // console.log(3+7+"1"+1+10);
 
-let a = 10, b = 10, c = 1;
+// let a = 10, b = 10, c = 1;
 
 
-console.log(a==b==c);
+// console.log(true==10);
+
 // if (a == b == c) {
 //     console.log('true');
 // }
 // else {
 //     console.log('false');
-// }
+
+// this is used profile jsx for coditonal rendering image upload 
+
+// let img_err = false;
+// let img = Math.floor(Math.random() * 99) + 1; // which give us 1 - 100 numbers and do conditional rendering
+// console.log(img);
+
+// img_err
+//   ? console.log("error")
+//   : img > 0 && img < 100
+//   ? console.log("uploading")
+//   : img === 100
+//   ? console.log("img uplaoded")
+//   : console.log("some internal eror try again");

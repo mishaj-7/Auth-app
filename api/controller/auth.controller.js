@@ -37,7 +37,7 @@ export const signin = async (req, res, next) => {
             .status(200)
             .json(rest);
     } catch (err) {
-        console.log("helo")
+        console.log("error")
         next(err)
      }
 }
@@ -78,6 +78,6 @@ export const google = async (req, res, next) => {
         }
     } catch (err) {
         next(err);
-        console.log(err);
+        //console.log(err);
     }
 }
