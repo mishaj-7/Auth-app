@@ -70,7 +70,7 @@ export default function Profile() {
           onClick={() => fileRef.current.click()}
         >
           <img
-            src={currentUser.profilePicture}
+            src={formData.profilePicture || currentUser.profilePicture}
             alt="profile"
             className="h-24 w-24 self-center cursor-pointer 
           rounded-full object-cover mt-2"
@@ -79,16 +79,18 @@ export default function Profile() {
             dp change
           </div>
         </a>
-        <p className='text-sm self-center'>
+        <p className="text-sm self-center">
           {imageError ? (
-            <span className="text-red-700">check file is image and size &lt; 2mb</span>
+            <span className="text-red-700">
+              check file is image and size &lt; 2mb
+            </span>
           ) : imagePercent > 0 && imagePercent < 100 ? (
             <span className="text-slate-700">{`Uploading: 
             ${imagePercent} '%'`}</span>
           ) : imagePercent === 100 ? (
             <span className="text-green-700">Uplaod succesfull</span>
           ) : (
-           ''
+            ""
           )}
         </p>
         <input
