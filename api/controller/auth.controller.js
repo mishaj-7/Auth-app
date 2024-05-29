@@ -24,7 +24,8 @@ export const signin = async (req, res, next) => {
         if (!validUser) return next(erroHandler(404, 'user not found'));
 
         const validPassword = bcryptjs.compareSync(password, validUser.password);
-       // console.log(password + "\n" + validPassword + validUser.password);
+        // console.log(password + "\n" + validPassword + validUser.password);
+        
         if (!validPassword) return next(erroHandler(401, 'wrong credential'));
 
         const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
@@ -39,8 +40,8 @@ export const signin = async (req, res, next) => {
     } catch (err) {
         console.log("error")
         next(err)
-     }
-}
+    }
+};
 
 export const google = async (req, res, next) => {
     //console.log(req.body.name);

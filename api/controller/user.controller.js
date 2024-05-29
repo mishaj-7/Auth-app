@@ -18,7 +18,6 @@ export const updateUser = async (req, res, next) => {
     if (req.body.password) {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
-
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
@@ -32,6 +31,7 @@ export const updateUser = async (req, res, next) => {
       {new:true} // which give updated document instead of old orginal document so user can see the change
 
     );
+    
     const { password, ...rest } = updatedUser._doc;
     res.status(200).json(rest);
   }

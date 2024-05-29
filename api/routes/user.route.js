@@ -4,7 +4,7 @@ import { verifyToken } from "../utils/verifyUser.js"; // verify token: check the
 
 const router = express.Router();
 
-router.get('/', test)
-router.post("/updated/:id",verifyToken, updateUser)
+router.get('/', test);
+router.post("/update/:id", verifyToken, updateUser);
 
 export default router;

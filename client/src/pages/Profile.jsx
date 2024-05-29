@@ -2,16 +2,23 @@ import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
+import { useDispatch } from 'react-redux';
+import { updateUserStart, updateUserSucces, udpateUserFailiure } from '../redux_toolkit/User/userSlice.js';
+
 
 export default function Profile() {
   const fileRef = useRef(null);
+  const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   const [imagePercent, setImagePercent] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [formData, setFormData] = useState({});
+  const [updateSuccess, setupdateSuccess] = useState(false);
   //console.log(formData)
 
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser, loading, error } = useSelector(state => state.user); // states comes from redux store
+  console.log(currentUser._id);
+
   useEffect(() => {
     if (image) {
       handleImageUpload(image);
@@ -42,6 +49,36 @@ export default function Profile() {
     );
   };
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+   // console.log(formData);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(udpateUserFailiure(data));
+        return; // update filiure it return here and
+      };
+      dispatch(updateUserSucces(data));
+      setupdateSuccess(true);
+    } catch (err) {
+      dispatch(udpateUserFailiure(err))
+      // console.log(err + ' cant update');
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1
@@ -51,7 +88,7 @@ export default function Profile() {
         Profile
       </h1>
 
-      <form className="flex flex-col gap-4">
+      <form className = "flex flex-col gap-4" onSubmit = {handleSubmit} >
         <input
           type="file"
           ref={fileRef}
@@ -99,6 +136,7 @@ export default function Profile() {
           id="username"
           placeholder="Username"
           className="bg-slate-100 rounded-lg p-3"
+          onChange={handleChange}
         />
         <input
           defaultValue={currentUser.email}
@@ -106,18 +144,20 @@ export default function Profile() {
           id="email"
           placeholder="Email"
           className="bg-slate-100 rounded-lg p-3"
+          onChange={handleChange}
         />
         <input
           type="password"
           id="Password"
           placeholder="Password"
           className="bg-slate-100 rounded-lg p-3"
+          onChange={handleChange}
         />
         <button
           className="bg-slate-700 text-white p-3 
         rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
-          update
+          {loading ? 'Loading...' : 'Update'}
         </button>
       </form>
 
@@ -125,6 +165,8 @@ export default function Profile() {
         <span className="text-red-700 cursor-pointer">Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
+      <p className='text-red-700 mt-5'>{error && 'something went wrong try again !'}</p>
+      <p className='text-green-700 mt-5'>{updateSuccess && 'user updated succesfully'}</p>
     </div>
   );
-}
+};
