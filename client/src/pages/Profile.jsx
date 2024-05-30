@@ -165,8 +165,8 @@ export default function Profile() {
         <span className="text-red-700 cursor-pointer">Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
-      <p className='text-red-700 mt-5'>{error && 'something went wrong try again !'}</p>
-      <p className='text-green-700 mt-5'>{updateSuccess && 'user updated succesfully'}</p>
+      <p className='text-red-700 mt-5 text-[18px]'>{error && 'something went wrong singin and try again !!!'}</p>
+      <p className='text-green-700 mt-5'>{updateSuccess && 'user updated succesfully \u{1F44F}'}</p>
     </div>
   );
 };

@@ -28,7 +28,7 @@ export const updateUser = async (req, res, next) => {
           profilePicture: req.body.profilePicture,
         }
       },
-      {new:true} // which give updated document instead of old orginal document so user can see the change
+      {new:true} // this line give updated document instead of old orginal document so user can see the change
 
     );
     
