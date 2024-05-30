@@ -10,6 +10,7 @@ import {
   deleteUserAccountStart,
   deleteUserAccountSuccess,
   deleteUserAccountFailure,
+  signOut
 } from '../redux_toolkit/User/userSlice.js';
 
 
@@ -104,6 +105,18 @@ export default function Profile() {
     };
   };
 
+  const handleSignOut = async () => {
+    try {
+      await fetch("/api/auth/signout/", { // this request just clear the cookie so uer automatically sign out
+        method: "GET",
+      });
+      dispatch(signOut());
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1
@@ -190,7 +203,9 @@ export default function Profile() {
         <span className="text-red-700 cursor-pointer"
         onClick={handleDeleteAccount}
         >Delete Account</span>
-        <span className="text-red-700 cursor-pointer">Sign Out</span>
+        <span className="text-red-700 cursor-pointer"
+        onClick={handleSignOut}
+        >Sign Out</span>
       </div>
       <p className='text-red-700 mt-5 text-[18px]'>{error && 'something went wrong singin and try again !!!'}</p>
       <p className='text-green-700 mt-5'>{updateSuccess && 'user updated succesfully \u{1F44F}'}</p>
