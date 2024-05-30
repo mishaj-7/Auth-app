@@ -3,7 +3,14 @@ import { useEffect, useRef, useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import { useDispatch } from 'react-redux';
-import { updateUserStart, updateUserSucces, udpateUserFailiure } from '../redux_toolkit/User/userSlice.js';
+import {
+  updateUserStart,
+  updateUserSucces,
+  udpateUserFailiure,
+  deleteUserAccountStart,
+  deleteUserAccountSuccess,
+  deleteUserAccountFailure,
+} from '../redux_toolkit/User/userSlice.js';
 
 
 export default function Profile() {
@@ -17,7 +24,7 @@ export default function Profile() {
   //console.log(formData)
 
   const { currentUser, loading, error } = useSelector(state => state.user); // states comes from redux store
-  console.log(currentUser._id);
+  // console.log(currentUser._id);
 
   useEffect(() => {
     if (image) {
@@ -77,6 +84,24 @@ export default function Profile() {
       dispatch(udpateUserFailiure(err))
       // console.log(err + ' cant update');
     }
+  };
+  
+  const handleDeleteAccount = async () => {
+    try {
+      dispatch(deleteUserAccountStart());
+      const res = await fetch(`api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserAccountFailure(data));
+        return;
+      };
+      dispatch(deleteUserAccountSuccess());
+    }
+    catch (err) {
+      dispatch(deleteUserAccountFailure(err))
+    };
   };
 
   return (
@@ -162,7 +187,9 @@ export default function Profile() {
       </form>
 
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete Account</span>
+        <span className="text-red-700 cursor-pointer"
+        onClick={handleDeleteAccount}
+        >Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
       <p className='text-red-700 mt-5 text-[18px]'>{error && 'something went wrong singin and try again !!!'}</p>
