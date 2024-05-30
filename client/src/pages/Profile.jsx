@@ -186,7 +186,7 @@ export default function Profile() {
         />
         <input
           type="password"
-          id="Password"
+          id="password"
           placeholder="Password"
           className="bg-slate-100 rounded-lg p-3"
           onChange={handleChange}
